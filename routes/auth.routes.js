@@ -4,6 +4,7 @@ const router = require("express").Router()
 
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
+const verifyToken = require("../middlewares/auth.middlewares")
 
 // POST "/api/auth/signup" => creates the document of the user
 router.post("/signup", async(req,res,next) => {
@@ -101,5 +102,11 @@ router.post("/login", async (req,res,next) => {
 })
 
 // GET "/api/auth/verify" => indicate to the client who the user is
+router.get("/verify", verifyToken,(req,res) => {
+
+    // We validate the token, and then send to the client who this person is by passing the payload
+    res.status(200).json(req.payload)
+
+})
 
 module.exports = router
