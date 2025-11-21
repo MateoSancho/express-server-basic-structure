@@ -1,8 +1,23 @@
-function verifyToken(req,res,next) {
+const jwt = require("jsonwebtoken")
 
-    //console.log(req.headers)
+function verifyToken(req, res, next) {
 
-    next() // Continue to the route
+  console.log(req.headers)
+
+  try {
+
+    const authToken = req.headers.authorization.split(" ")[1]
+
+    const payload = jwt.verify(authToken, process.env.TOKEN_SECRET)
+    console.log(payload)
+    
+    next() // continue to the route, meaning that the token was valid
+
+  } catch (error) {
+    // if the token is not valid, it doesn't exist or if it was modified. then it goes into this catch.
+    res.status(401).json({errorMessage: "token is not valid, it doesn't exist or it has been modified"})
+  }
+
 
 }
 
