@@ -15,10 +15,16 @@ const verifyToken = require("../middlewares/auth.middlewares")
 router.get("/exapmle-private-route", verifyToken, (req,res) => {
 
   // Very Important
-  //console.log("here is the user requesting things", req.payload)
+  console.log("here is the user requesting things", req.payload)
   
   res.send("Example of private data. Here have some private potato.")
 
 })
+
+// /public-api-name/games
+
+//{
+  //service.get("Url-api-name")
+//}
 
 module.exports = router;

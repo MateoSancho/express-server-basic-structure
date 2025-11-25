@@ -9,7 +9,7 @@ const verifyToken = require("../middlewares/auth.middlewares")
 // POST "/api/auth/signup" => creates the document of the user
 router.post("/signup", async(req,res,next) => {
 
-    //console.log(req.body)
+    console.log(req.body)
     const { username , email, password } = req.body
 
     // 1. The email should be unique
@@ -49,7 +49,7 @@ router.post("/signup", async(req,res,next) => {
             password: hashPassword
         })
 
-        res.sendStatus(201)
+        res.sendStatus(200)
         
     } catch (error) {
         next(error)
@@ -58,7 +58,7 @@ router.post("/signup", async(req,res,next) => {
 
 // POST "/api/auth/login" => verify user credentials (authenticate the user) and send the token
 router.post("/login", async (req,res,next) => {
-    //console.log(req.body)
+    console.log(req.body)
 
     const {email, password} = req.body
 
@@ -70,7 +70,7 @@ router.post("/login", async (req,res,next) => {
     try {
 
         const foundUser = await User.findOne({email: email})
-        //console.log(foundUser)
+        console.log(foundUser)
         if (!foundUser) {
              res.status(400).json({ErrorMessage: "No user with that email, please sign up first or try a different email"})
             return; // Stop the route
@@ -78,7 +78,7 @@ router.post("/login", async (req,res,next) => {
 
         const isPasswordMatch = await bcrypt.compare(password, foundUser.password)
         if(isPasswordMatch === false) {
-            res.statur(400).json({ErrorMessage: "Password is not correct, try again"})
+            res.status(400).json({ErrorMessage: "Password is not correct, try again"})
             return; // Stop the route
         }
 
@@ -104,8 +104,8 @@ router.post("/login", async (req,res,next) => {
 // GET "/api/auth/verify" => indicate to the client who the user is
 router.get("/verify", verifyToken,(req,res) => {
 
-    // We validate the token, and then send to the client who this person is by passing the payload
-    res.status(200).json(req.payload)
+// We validate the token, and then send to the client who this person is by passing the payload
+res.status(200).json(req.payload)
 
 })
 
